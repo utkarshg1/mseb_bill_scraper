@@ -2,3 +2,4 @@ playwright
 pillow
 pytesseract
 python-dotenv
+opencv-python
