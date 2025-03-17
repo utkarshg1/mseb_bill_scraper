@@ -27,7 +27,6 @@ def scrape_website(url="https://wss.mahadiscom.in/wss/wss?uiActionName=getViewPa
     page = browser.new_page()
     page.goto(url)
     print(page.title())
-    page.screenshot(path="screenshot.png")
     # Extract base64 image data from the canvas
     image_data = page.evaluate(
         """
@@ -39,6 +38,17 @@ def scrape_website(url="https://wss.mahadiscom.in/wss/wss?uiActionName=getViewPa
     )
     captcha = extract_captcha(image_data)
     print(f"Extracted captcha : {captcha}")
+    # Fill Consumer number
+    cons = page.locator("#consumerNo")
+    cons.fill(os.getenv("CUSTOMER_ID"))
+    # Fill Captcha
+    capt = page.locator("#txtInput")
+    capt.fill(captcha)
+    page.screenshot(path="screenshot.png")
+    # Click submit button
+    button = page.locator("#submitButton")
+    button.click()
+    page.screenshot(path="example.png")
     browser.close()
 
 
